@@ -29,7 +29,7 @@ public class Flame extends Room{
 
         readImg(pApplet,select);
         pApplet.image(getImg(),40*getX()+8, 40*getY()+8);
-        if(System.currentTimeMillis() - createTime > 800) {
+        if(System.currentTimeMillis() - createTime > 500) {
             this.flameInterface.destroyFrame(getX(), getY());
         }
     }

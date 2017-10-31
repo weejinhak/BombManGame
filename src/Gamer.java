@@ -10,7 +10,7 @@ public class Gamer extends Room{
 
     public Gamer(int x, int y, int player) {
         super(x, y);
-        bombCount = 1;
+        bombCount = 3;
         powerCount = 3;
         bombs = new ArrayList<Bomb>();
         state = 0;

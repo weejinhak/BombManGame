@@ -6,10 +6,8 @@ public class Map implements FlameInterface {
     private Room[][] rooms;
     private PApplet pApplet;
 
-    private ArrayList<Flame> flames;
-
-    public Map(PApplet pApplet) {
-        flames = new ArrayList<Flame>();
+    Map(PApplet pApplet) {
+        ArrayList<Flame> flames = new ArrayList<Flame>();
         this.pApplet = pApplet;
 
         rooms = new Room[20][15];
@@ -19,7 +17,7 @@ public class Map implements FlameInterface {
                 rooms[i][j] = new EmptyRoom(i, j);
     }
 
-    public void settingBorder() {
+    void settingBorder() {
         for (int i = 0; i < 20; i++)
             for (int j = 0; j < 15; j++)
                 if (i == 0 || i == 19 || j == 0 || j == 14) {
@@ -29,7 +27,7 @@ public class Map implements FlameInterface {
                 }
     }
 
-    public void settingPopBlock() {
+    void settingPopBlock() {
         for (int i = 1; i < 19; i++)
             for (int j = 1; j < 14; j++) {
                 int quarter = (int) (Math.random() * 4);
@@ -41,7 +39,7 @@ public class Map implements FlameInterface {
             }// for j
     }
 
-    public void settingSolidBlock() {
+    void settingSolidBlock() {
         int width = (int) (Math.random() * 3) + 3;
         int height = (int) (Math.random() * 2) + 3;
 
@@ -54,7 +52,7 @@ public class Map implements FlameInterface {
                 }
     }
 
-    public void settingGamer(Gamer gamer1, Gamer gamer2) {
+    void settingGamer(Gamer gamer1, Gamer gamer2) {
         rooms[1][1] = gamer1;
         rooms[18][13] = gamer2;
 
@@ -69,11 +67,11 @@ public class Map implements FlameInterface {
         this.rooms = rooms;
     }
 
-    public Room[][] getRooms() {
+    Room[][] getRooms() {
         return rooms;
     }
 
-    public boolean possibleMove(int x, int y) {
+    boolean possibleMove(int x, int y) {
         boolean result = false;
 
         if (!(rooms[x][y] instanceof SolidBlock) && !(rooms[x][y] instanceof PopBlock))
@@ -82,7 +80,7 @@ public class Map implements FlameInterface {
         return result;
     }
 
-    public boolean isSolidBlock(int x, int y) {
+    private boolean isSolidBlock(int x, int y) {
         boolean result = false;
 
         if (rooms[x][y] instanceof SolidBlock)
@@ -91,7 +89,7 @@ public class Map implements FlameInterface {
         return result;
     }
 
-    public boolean isPopBlock(int x, int y) {
+    private boolean isPopBlock(int x, int y) {
         boolean result = false;
 
         if (rooms[x][y] instanceof PopBlock)
@@ -100,34 +98,43 @@ public class Map implements FlameInterface {
         return result;
     }
 
-    public void makeFlame(int x, int y, int power) {
+    void makeFlame(int x, int y, int power) {
         for (int i = 1; i <= power; i++) {
             if (isPopBlock(x - i, y)) {
-                rooms[x-1][y]=new Flame(x-i,y,3,this);
+                rooms[x-i][y]=new Flame(x-i,y,3,this);
                 break;
             }
-            rooms[x - i][y] = new Flame(x - i, y, 3, this);
-            if (!isSolidBlock(x - i, y))
-                rooms[x+i][y]=new Flame(x-i,y,3,this);
+            if (isSolidBlock(x - i, y)) {
                 break;
+            }
+            rooms[x-i][y]=new Flame(x-i,y,3,this);
         }
         for (int i = 1; i <= power; i++) {
-            if (!isSolidBlock(x + i, y))
-                rooms[x + i][y] = new Flame(x + i, y, 3, this);
-            else
+            if(isPopBlock(x+i,y)){
+                rooms[x+i][y]=new Flame(x+i,y,3,this);
                 break;
+            }
+            if (isSolidBlock(x + i, y))
+                break;
+            rooms[x+i][y]=new Flame(x+i,y,3,this);
         }
         for (int i = 1; i <= power; i++) {
-            if (!isSolidBlock(x, y - i))
-                rooms[x][y - i] = new Flame(x, y - i, 3, this);
-            else
+            if(isPopBlock(x,y-i)){
+                rooms[x][y-i]=new Flame(x,y-i,3,this);
                 break;
+            }
+            if (isSolidBlock(x, y-i))
+                break;
+            rooms[x][y-i]=new Flame(x,y-i,3,this);
         }
         for (int i = 1; i <= power; i++) {
-            if (!isSolidBlock(x, y + i))
-                rooms[x][y + i] = new Flame(x, y + i, 3, this);
-            else
+            if(isPopBlock(x,y+i)){
+                rooms[x][y+i]=new Flame(x,y+i,3,this);
                 break;
+            }
+            if (isSolidBlock(x , y+i))
+                break;
+            rooms[x][y+i]=new Flame(x,y+i,3,this);
         }
 
     }
