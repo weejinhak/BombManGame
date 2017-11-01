@@ -11,6 +11,7 @@ public class BumbManTest extends PApplet {
     private Map setting;
     private Gamer gamer1 = new Gamer(1,1,1);
     private Gamer gamer2 = new Gamer(18,13,2);
+    private PopBlock popBlock;
 
     @Override
     public void setup(){

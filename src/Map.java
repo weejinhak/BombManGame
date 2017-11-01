@@ -5,9 +5,10 @@ import java.util.ArrayList;
 public class Map implements FlameInterface {
     private Room[][] rooms;
     private PApplet pApplet;
+    private PopBlock popBlock;
 
     Map(PApplet pApplet) {
-        ArrayList<Flame> flames = new ArrayList<Flame>();
+
         this.pApplet = pApplet;
 
         rooms = new Room[20][15];
@@ -32,7 +33,7 @@ public class Map implements FlameInterface {
             for (int j = 1; j < 14; j++) {
                 int quarter = (int) (Math.random() * 4);
                 if (quarter == 0) {
-                    PopBlock popBlock = new PopBlock(i, j);
+                    popBlock = new PopBlock(i, j);
                     rooms[i][j] = popBlock;
                     popBlock.readImg(pApplet, 1);
                 }// if
@@ -99,9 +100,11 @@ public class Map implements FlameInterface {
     }
 
     void makeFlame(int x, int y, int power) {
+        //-x_axis
         for (int i = 1; i <= power; i++) {
             if (isPopBlock(x - i, y)) {
                 rooms[x-i][y]=new Flame(x-i,y,3,this);
+                rooms[x-i][y] = new PopBlock(x-i,y).getItem();
                 break;
             }
             if (isSolidBlock(x - i, y)) {
@@ -109,27 +112,33 @@ public class Map implements FlameInterface {
             }
             rooms[x-i][y]=new Flame(x-i,y,3,this);
         }
+        //+x_axis
         for (int i = 1; i <= power; i++) {
             if(isPopBlock(x+i,y)){
                 rooms[x+i][y]=new Flame(x+i,y,3,this);
+                rooms[x+i][y] = new PopBlock(x+i,y).getItem();
                 break;
             }
             if (isSolidBlock(x + i, y))
                 break;
             rooms[x+i][y]=new Flame(x+i,y,3,this);
         }
+        //-y_axis
         for (int i = 1; i <= power; i++) {
             if(isPopBlock(x,y-i)){
                 rooms[x][y-i]=new Flame(x,y-i,3,this);
+                rooms[x][y-i] = new PopBlock(x,y-i).getItem();
                 break;
             }
             if (isSolidBlock(x, y-i))
                 break;
             rooms[x][y-i]=new Flame(x,y-i,3,this);
         }
+        //+y_axis
         for (int i = 1; i <= power; i++) {
             if(isPopBlock(x,y+i)){
                 rooms[x][y+i]=new Flame(x,y+i,3,this);
+                rooms[x][y+i] = new PopBlock(x,y+i).getItem();
                 break;
             }
             if (isSolidBlock(x , y+i))
@@ -158,6 +167,7 @@ public class Map implements FlameInterface {
 
     @Override
     public void destroyFrame(int x, int y) {
+
         rooms[x][y] = null;
     }
 

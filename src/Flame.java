@@ -5,7 +5,7 @@ public class Flame extends Room{
     private int select;
     private FlameInterface flameInterface;
 
-    public Flame(int x, int y, int select, FlameInterface flameInterface) {
+    Flame(int x, int y, int select, FlameInterface flameInterface) {
 
         super(x, y);
         this.flameInterface = flameInterface;

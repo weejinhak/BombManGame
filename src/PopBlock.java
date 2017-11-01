@@ -7,15 +7,14 @@ public class PopBlock extends Block{
 
     public PopBlock(int x, int y) {
         super(x, y);
-
         int thrid = (int) (Math.random()*3);
 
         if (thrid == 0)
-            item = new BombUpItem(x, y);
+            item = new BombUpItem(x, y,2);
         else if (thrid == 1)
-            item = new PowerItem(x, y);
+            item = new PowerItem(x, y,0);
         else if (thrid == 2)
-            item = new SpeedItem(x, y);
+            item = new SpeedItem(x, y,4);
     }
 
     public Item getItem() {
@@ -29,6 +28,7 @@ public class PopBlock extends Block{
 
     @Override
     public void draw(PApplet pApplet) {
+
         pApplet.image(getImg(),40*getX(), 40*getY());
     }
 }

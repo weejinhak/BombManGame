@@ -3,17 +3,15 @@ import java.util.ArrayList;
 
 public class Gamer extends Room{
     private int speed;
-    private int state;
     private int bombCount;
     private int powerCount;
     private ArrayList<Bomb> bombs;
 
-    public Gamer(int x, int y, int player) {
+    Gamer(int x, int y, int player) {
         super(x, y);
         bombCount = 3;
         powerCount = 3;
         bombs = new ArrayList<Bomb>();
-        state = 0;
     }
 
     void setSpeed(int speed) {
@@ -31,16 +29,16 @@ public class Gamer extends Room{
             this.powerCount = powerCount;
     }
 
-    public ArrayList<Bomb> getBombs() {
+    ArrayList<Bomb> getBombs() {
         return bombs;
     }
 
-    public void move(int x, int y){
+    void move(int x, int y){
         setX(x);
         setY(y);
     }
 
-    public void addBomb(){
+    void addBomb(){
         if (bombs.size() < bombCount) {
             Bomb bomb = new Bomb(getX(), getY(), powerCount);
             bombs.add(bomb);
