@@ -5,25 +5,24 @@ public class BumbManTest extends PApplet {
     @Override
     public void settings(){
         this.size(800,600);
+        smooth(5);
+
     }
 
     private Room[][] rooms;
     private Map setting;
     private Gamer gamer1 = new Gamer(1,1,1);
     private Gamer gamer2 = new Gamer(18,13,2);
-    private PopBlock popBlock;
 
     @Override
     public void setup(){
         gamer1.readImg(this,0);
         gamer2.readImg(this,0);
-
         setting = new Map(this);
         setting.settingBorder();
         setting.settingPopBlock();
         setting.settingSolidBlock();
         setting.settingGamer(gamer1, gamer2);
-
         rooms = setting.getRooms();
     }
 
@@ -36,8 +35,6 @@ public class BumbManTest extends PApplet {
         int keyCode = event.getKeyCode();
 
         moveGamer(keyCode);
-
-        System.out.println(key);
 
         if (keyCode == 16)
             gamer1.addBomb();
@@ -71,18 +68,17 @@ public class BumbManTest extends PApplet {
 
         if(setting.possibleMove(player1X,player1Y)) {
             gamer1.move(player1X, player1Y);
-            rooms[player1X][player1Y] = gamer1;
+            setting.eatItem(player1X,player1Y,gamer1);
         }
         if(setting.possibleMove(player2X,player2Y)) {
             gamer2.move(player2X,player2Y);
-            rooms[player2X][player2Y] = gamer2;
+            setting.eatItem(player2X,player2Y,gamer2);
         }
     }
 
     @Override
     public void draw() {
         background(00,99,66);
-
 
         for(int i=0;i<20;i++)
             for (int j=0;j<15;j++) {

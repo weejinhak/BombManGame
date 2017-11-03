@@ -98,6 +98,13 @@ public class Map implements FlameInterface {
 
         return result;
     }
+    private  boolean isGamer(int x, int y){
+        boolean result =false;
+        if (rooms[x][y] instanceof Gamer)
+            result = true;
+
+        return result;
+    }
 
     void makeFlame(int x, int y, int power) {
         //-x_axis
@@ -107,9 +114,8 @@ public class Map implements FlameInterface {
                 rooms[x-i][y] = new PopBlock(x-i,y).getItem();
                 break;
             }
-            if (isSolidBlock(x - i, y)) {
-                break;
-            }
+            if (isSolidBlock(x - i, y)) break;
+            if (isGamer(x-i,y)){ rooms[x-i][y]=new Flame(x-i,y,3,this);}
             rooms[x-i][y]=new Flame(x-i,y,3,this);
         }
         //+x_axis
@@ -119,8 +125,8 @@ public class Map implements FlameInterface {
                 rooms[x+i][y] = new PopBlock(x+i,y).getItem();
                 break;
             }
-            if (isSolidBlock(x + i, y))
-                break;
+            if (isSolidBlock(x + i, y)) break;
+            if(isGamer(x+i,y)){rooms[x+i][y]=new Flame(x+i,y,3,this); }
             rooms[x+i][y]=new Flame(x+i,y,3,this);
         }
         //-y_axis
@@ -130,8 +136,8 @@ public class Map implements FlameInterface {
                 rooms[x][y-i] = new PopBlock(x,y-i).getItem();
                 break;
             }
-            if (isSolidBlock(x, y-i))
-                break;
+            if (isSolidBlock(x, y-i)) break;
+            if(isGamer(x,y-i)){rooms[x][y-i]=new Flame(x,y-i,3,this); }
             rooms[x][y-i]=new Flame(x,y-i,3,this);
         }
         //+y_axis
@@ -141,8 +147,8 @@ public class Map implements FlameInterface {
                 rooms[x][y+i] = new PopBlock(x,y+i).getItem();
                 break;
             }
-            if (isSolidBlock(x , y+i))
-                break;
+            if (isSolidBlock(x , y+i)) break;
+            if(isGamer(x,y)){rooms[x][y+i]=new Flame(x,y+i,3,this); }
             rooms[x][y+i]=new Flame(x,y+i,3,this);
         }
 
@@ -151,17 +157,21 @@ public class Map implements FlameInterface {
     void eatItem(int x, int y, Gamer gamer) {
         int countUp = 1;
         if (rooms[x][y] instanceof SpeedItem) {
+            System.out.print("SpeedItem_eat!");
             gamer.setSpeed(countUp);
             gamer.move(x, y);
             rooms[x][y] = gamer;
         } else if (rooms[x][y] instanceof PowerItem) {
+            System.out.println("PowerItem_eat!");
             gamer.setPowerCount(countUp);
             gamer.move(x, y);
             rooms[x][y] = gamer;
         } else if (rooms[x][y] instanceof BombUpItem) {
+            System.out.println("BombUpItem_eat!");
             gamer.setBombCount(countUp);
             gamer.move(x, y);
             rooms[x][y] = gamer;
+            System.out.print(gamer.getBombCount());
         }
     }
 

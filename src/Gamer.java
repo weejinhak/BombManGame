@@ -9,24 +9,29 @@ public class Gamer extends Room{
 
     Gamer(int x, int y, int player) {
         super(x, y);
-        bombCount = 3;
-        powerCount = 3;
+        bombCount = 1;
+        powerCount = 1;
+        speed=1;
         bombs = new ArrayList<Bomb>();
+    }
+
+    public int getBombCount() {
+        return bombCount;
     }
 
     void setSpeed(int speed) {
         if(this.speed<4)
-            this.speed = speed;
+            this.speed += speed;
     }
 
     void setBombCount(int bombCount) {
         if(this.bombCount<4)
-            this.bombCount = bombCount;
+            this.bombCount += bombCount;
     }
 
     void setPowerCount(int powerCount) {
         if(this.powerCount<4)
-            this.powerCount = powerCount;
+            this.powerCount += powerCount;
     }
 
     ArrayList<Bomb> getBombs() {
@@ -45,12 +50,10 @@ public class Gamer extends Room{
         }
     }
 
-
     public void readImg(PApplet pApplet, int select) {
         ImageManager imageManager = new ImageManager(pApplet);
         setImg(imageManager.readGamer(select));
     }
-
     @Override
     public void draw(PApplet pApplet) {
         pApplet.image(getImg(),40*getX()+8, 40*getY()+5);
