@@ -1,13 +1,11 @@
 import processing.core.PApplet;
 
-import java.util.ArrayList;
 
-public class Map implements FlameInterface {
+public class Setting implements FlameInterface {
     private Room[][] rooms;
     private PApplet pApplet;
-    private PopBlock popBlock;
 
-    Map(PApplet pApplet) {
+    Setting(PApplet pApplet) {
 
         this.pApplet = pApplet;
 
@@ -33,7 +31,7 @@ public class Map implements FlameInterface {
             for (int j = 1; j < 14; j++) {
                 int quarter = (int) (Math.random() * 4);
                 if (quarter == 0) {
-                    popBlock = new PopBlock(i, j);
+                    PopBlock popBlock = new PopBlock(i, j);
                     rooms[i][j] = popBlock;
                     popBlock.readImg(pApplet, 1);
                 }// if
@@ -64,21 +62,35 @@ public class Map implements FlameInterface {
         rooms[17][13] = new EmptyRoom(17, 13);
     }
 
-    public void setRooms(Room[][] rooms) {
-        this.rooms = rooms;
-    }
 
     Room[][] getRooms() {
         return rooms;
     }
 
-    boolean possibleMove(int x, int y) {
+    private boolean possibleMove(int x, int y) {
         boolean result = false;
 
         if (!(rooms[x][y] instanceof SolidBlock) && !(rooms[x][y] instanceof PopBlock))
             result = true;
 
         return result;
+    }
+
+    private void eatItem(int x, int y, Gamer gamer) {
+        int countUp = 1;
+        if (rooms[x][y] instanceof SpeedItem) {
+            gamer.setSpeed(countUp);
+            gamer.move(x, y);
+            rooms[x][y] = gamer;
+        } else if (rooms[x][y] instanceof PowerItem) {
+            gamer.setPowerCount(countUp);
+            gamer.move(x, y);
+            rooms[x][y] = gamer;
+        } else if (rooms[x][y] instanceof BombUpItem) {
+            gamer.setBombCount(countUp);
+            gamer.move(x, y);
+            rooms[x][y] = gamer;
+        }
     }
 
     private boolean isSolidBlock(int x, int y) {
@@ -98,11 +110,11 @@ public class Map implements FlameInterface {
 
         return result;
     }
-    private  boolean isGamer(int x, int y){
-        boolean result =false;
+
+    private boolean isGamer(int x, int y) {
+        boolean result = false;
         if (rooms[x][y] instanceof Gamer)
             result = true;
-
         return result;
     }
 
@@ -115,7 +127,7 @@ public class Map implements FlameInterface {
                 break;
             }
             if (isSolidBlock(x - i, y)) break;
-            if (isGamer(x-i,y)){ rooms[x-i][y]=new Flame(x-i,y,3,this);}
+            if (isGamer(x-i,y)){rooms[x-i][y]=new Flame(x-i,y,3,this);}
             rooms[x-i][y]=new Flame(x-i,y,3,this);
         }
         //+x_axis
@@ -126,7 +138,7 @@ public class Map implements FlameInterface {
                 break;
             }
             if (isSolidBlock(x + i, y)) break;
-            if(isGamer(x+i,y)){rooms[x+i][y]=new Flame(x+i,y,3,this); }
+            if(isGamer(x+i,y)){rooms[x+i][y]=new Flame(x+i,y,3,this);continue;}
             rooms[x+i][y]=new Flame(x+i,y,3,this);
         }
         //-y_axis
@@ -137,7 +149,7 @@ public class Map implements FlameInterface {
                 break;
             }
             if (isSolidBlock(x, y-i)) break;
-            if(isGamer(x,y-i)){rooms[x][y-i]=new Flame(x,y-i,3,this); }
+            if(isGamer(x,y-i)){rooms[x][y-i]=new Flame(x,y-i,3,this);continue;}
             rooms[x][y-i]=new Flame(x,y-i,3,this);
         }
         //+y_axis
@@ -148,36 +160,54 @@ public class Map implements FlameInterface {
                 break;
             }
             if (isSolidBlock(x , y+i)) break;
-            if(isGamer(x,y)){rooms[x][y+i]=new Flame(x,y+i,3,this); }
+            if(isGamer(x,y)){rooms[x][y+i]=new Flame(x,y+i,3,this);continue;}
             rooms[x][y+i]=new Flame(x,y+i,3,this);
         }
 
     }
 
-    void eatItem(int x, int y, Gamer gamer) {
-        int countUp = 1;
-        if (rooms[x][y] instanceof SpeedItem) {
-            System.out.print("SpeedItem_eat!");
-            gamer.setSpeed(countUp);
-            gamer.move(x, y);
-            rooms[x][y] = gamer;
-        } else if (rooms[x][y] instanceof PowerItem) {
-            System.out.println("PowerItem_eat!");
-            gamer.setPowerCount(countUp);
-            gamer.move(x, y);
-            rooms[x][y] = gamer;
-        } else if (rooms[x][y] instanceof BombUpItem) {
-            System.out.println("BombUpItem_eat!");
-            gamer.setBombCount(countUp);
-            gamer.move(x, y);
-            rooms[x][y] = gamer;
-            System.out.print(gamer.getBombCount());
+
+    void moveGamer(int key, Gamer gamer1, Gamer gamer2){
+        int player1X = gamer1.getX();
+        int player1Y = gamer1.getY();
+        int player2X = gamer2.getX();
+        int player2Y = gamer2.getY();
+
+        if(key==65)
+            player1X -=1;
+        else if(key==87)
+            player1Y -=1;
+        else if(key==83)
+            player1Y +=1;
+        else if(key==68)
+            player1X +=1;
+        else if(key==37)
+            player2X -=1;
+        else if(key==38)
+            player2Y -=1;
+        else if(key==40)
+            player2Y +=1;
+        else if(key==39)
+            player2X +=1;
+
+        if (key == 16)
+            gamer1.addBomb();
+        if (key == 32)
+            gamer2.addBomb();
+
+        if(possibleMove(player1X,player1Y)) {
+            gamer1.move(player1X, player1Y);
+            eatItem(player1X,player1Y,gamer1);
+        }
+        if(possibleMove(player2X,player2Y)) {
+            gamer2.move(player2X,player2Y);
+            eatItem(player2X,player2Y,gamer2);
         }
     }
 
+
     @Override
     public void destroyFrame(int x, int y) {
-
         rooms[x][y] = null;
     }
 

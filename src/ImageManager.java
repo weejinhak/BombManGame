@@ -5,11 +5,11 @@ public class ImageManager {
 
     private PApplet pApplet;
 
-    public ImageManager(PApplet pApplet) {
+    ImageManager(PApplet pApplet) {
         this.pApplet = pApplet;
     }
 
-    public  PImage readBlock(int select) {
+    PImage readBlock(int select) {
         PImage blockImage;
         PImage[] block;
         blockImage = pApplet.loadImage("src/images/bomberman-block.png");
@@ -19,7 +19,7 @@ public class ImageManager {
                 block[j * 3 + i] = blockImage.get(40 * i, 40 * j, 40, 40);
         return block[select];
     }
-    public PImage readGamer(int select){
+    PImage readGamer(int select){
         PImage gamerImage;
         PImage[] gamer;
         gamerImage = pApplet.loadImage("src/images/bomberman-stay.png");
@@ -40,7 +40,7 @@ public class ImageManager {
         return movement[select];
     }
 
-    public PImage readItem(int select){
+    PImage readItem(int select){
         PImage itemImage;
         PImage[] items;
         itemImage=pApplet.loadImage("src/images/bomberman-items.png");
@@ -50,7 +50,7 @@ public class ImageManager {
                 items[j * 5 + i] = itemImage.get(24 * i, 24 * j, 24, 24);
         return items[select];
     }
-    public PImage readEffect(int select){
+    PImage readEffect(int select){
         PImage effectImage;
         PImage[] effect;
         effectImage=pApplet.loadImage("src/images/bomberman-effect.png");

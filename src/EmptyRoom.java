@@ -2,7 +2,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 public class EmptyRoom extends Room {
-    public EmptyRoom(int x, int y) {
+    EmptyRoom(int x, int y) {
         super(x, y);
     }
 

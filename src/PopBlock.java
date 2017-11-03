@@ -5,7 +5,7 @@ public class PopBlock extends Block{
     private Item item;
     private boolean hasItem;
 
-    public PopBlock(int x, int y) {
+    PopBlock(int x, int y) {
         super(x, y);
         int thrid = (int) (Math.random()*3);
 
@@ -17,7 +17,7 @@ public class PopBlock extends Block{
             item = new SpeedItem(x, y,4);
     }
 
-    public Item getItem() {
+    Item getItem() {
         return item;
     }
 

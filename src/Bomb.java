@@ -4,7 +4,7 @@ public class Bomb extends Room{
     private int power;
     private long createTime;
 
-    public Bomb(int x, int y, int power) {
+    Bomb(int x, int y, int power) {
         super(x, y);
         this.power = power;
         createTime = System.currentTimeMillis();
@@ -14,11 +14,11 @@ public class Bomb extends Room{
         this.power = power;
     }
 
-    public int getPower() {
+    int getPower() {
         return power;
     }
 
-    public long getCreateTime() {
+    long getCreateTime() {
         return createTime;
     }
 

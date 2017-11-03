@@ -8,7 +8,7 @@ public abstract class Item extends Room {
         super(0,0);
     }
 
-    public Item(int x, int y,int select) {
+    Item(int x, int y, int select) {
 
         super(x, y);
         this.select=select;

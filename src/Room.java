@@ -7,7 +7,7 @@ public abstract class Room {
     private int y;
     private PImage img;
 
-   public Room(int x, int y){
+   Room(int x, int y){
        this.x = x;
        this.y = y;
    }
@@ -30,11 +30,11 @@ public abstract class Room {
 
     public abstract void readImg(PApplet pApplet, int select);
 
-    public PImage getImg() {
+    PImage getImg() {
         return img;
     }
 
-    public void setImg(PImage pImage){
+    void setImg(PImage pImage){
         this.img = pImage;
     }
 
