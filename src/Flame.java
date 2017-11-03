@@ -14,10 +14,6 @@ public class Flame extends Room{
         this.select = select;
     }
 
-    public long getCreateTime() {
-        return createTime;
-    }
-
     @Override
     public void readImg(PApplet pApplet, int select) {
         ImageManager imageManager = new ImageManager(pApplet);

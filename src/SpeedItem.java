@@ -6,5 +6,4 @@ class SpeedItem extends Item{
         super(x, y,select);
     }
 
-
 }

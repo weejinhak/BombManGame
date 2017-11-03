@@ -37,9 +37,7 @@ public class BumbManTest extends PApplet {
 
         setting.moveGamer(keyCode, gamer1, gamer2);
 
-
     }
-
 
     @Override
     public void draw() {
